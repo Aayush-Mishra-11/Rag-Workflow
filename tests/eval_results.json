@@ -1,0 +1,263 @@
+[
+  {
+    "id": "in-scope-1",
+    "question": "What does AWS do with customer content?",
+    "retrieval": {
+      "expected_section": "AWS Responsibilities",
+      "retrieved_sections": [
+        "Proprietary Rights",
+        "Limitations of Liability",
+        "Definitions",
+        "Fees and Payment"
+      ],
+      "recall_at_4": false
+    },
+    "answer": "The AWS Customer Agreement states that customers represent and warrant that they own all rights to their content (Your Content) and have the necessary rights to grant AWS usage of it [1a]. Customers are also prohibited from reverse engineering, disassembling, or decompiling the Services or AWS Content [4a(a)]. The agreement does not provide specific information about what AWS does with customer content.",
+    "answer_eval": {
+      "refused": false,
+      "must_contain_met": false,
+      "must_not_contain_met": true,
+      "present_tokens": [
+        "content"
+      ],
+      "missing_tokens": [
+        "use"
+      ]
+    },
+    "latency_ms": 7580,
+    "error": null
+  },
+  {
+    "id": "in-scope-2",
+    "question": "How can AWS modify the agreement?",
+    "retrieval": {
+      "expected_section": "Modifications to the Agreement",
+      "retrieved_sections": [
+        "Limitations of Liability",
+        "Limitations of Liability",
+        "Limitations of Liability",
+        "AWS Responsibilities"
+      ],
+      "recall_at_4": false
+    },
+    "answer": "AWS can modify this Agreement by posting a revised version on the AWS Site or by otherwise notifying you in accordance with Section 11.10 [1]. The modified terms become effective upon posting or, if they are notified by email, as stated in the email message [1]. By continuing to use the Services or AWS Content after the effective date of any modifications to this Agreement, you agree to be bound by the modified terms [1]. It is your responsibility to check the AWS Site regularly for modifications to this Agreement [1].",
+    "answer_eval": {
+      "refused": false,
+      "must_contain_met": true,
+      "must_not_contain_met": true,
+      "present_tokens": [
+        "modif"
+      ],
+      "missing_tokens": []
+    },
+    "latency_ms": 10484,
+    "error": null
+  },
+  {
+    "id": "in-scope-3",
+    "question": "What is the disclaimer of warranties?",
+    "retrieval": {
+      "expected_section": "Disclaimers",
+      "retrieved_sections": [
+        "Disclaimers",
+        "Limitations of Liability",
+        "Limitations of Liability",
+        "Limitations of Liability"
+      ],
+      "recall_at_4": true
+    },
+    "answer": "The document provides a disclaimer of warranties for the Services and AWS Content as follows: [8] Except to the extent prohibited by law or statutory rights that cannot be excluded, limited, or waived, no representations or warranties of any kind are made regarding the Services or AWS Content or Third-Party Content. Disclaimers include those of merchantability, satisfactory quality, fitness for a particular purpose, non-infringement, or quiet enjoyment, arising out of any course of dealing or usage of trade, and that the Services or AWS Content will be uninterrupted, error-free, or free of harmful components. [8] Also, no warranty is made that any content will be secure or not otherwise lost or altered.",
+    "answer_eval": {
+      "refused": false,
+      "must_contain_met": false,
+      "must_not_contain_met": true,
+      "present_tokens": [
+        "warrant"
+      ],
+      "missing_tokens": [
+        "as is"
+      ]
+    },
+    "latency_ms": 15740,
+    "error": null
+  },
+  {
+    "id": "in-scope-4",
+    "question": "What are the limitations of liability in the agreement?",
+    "retrieval": {
+      "expected_section": "Limitations of Liability",
+      "retrieved_sections": [
+        "Limitations of Liability",
+        "Disclaimers",
+        "Limitations of Liability",
+        "Disclaimers"
+      ],
+      "recall_at_4": true
+    },
+    "answer": "The limitations of liability in the agreement state that:\n\n1. Neither AWS nor the customer will have liability for indirect, incidental, special, consequential or exemplary damages, loss of profits, revenues, customers, opportunities, or goodwill, or unavailability of the services [1].\n2. The aggregate liability under this agreement will not exceed the amounts paid by the customer to AWS during the 12 months before the liability arose, except for payment obligations and any liability that cannot be limited under applicable law [1].\n3. If the AWS Contracting Party is Amazon Web Services Malaysia Sdn. Bhd., Section 9.1 (Liability Disclaimers) will not include claims for indirect, incidental, consequential or exemplary damages [3].\n4. The customer will reimburse AWS for reasonable attorneys’ fees and employees' time and materials spent responding to third-party claims related to the customer's use of the services, breach of the agreement, or violation of applicable law by the customer [4].",
+    "answer_eval": {
+      "refused": false,
+      "must_contain_met": true,
+      "must_not_contain_met": true,
+      "present_tokens": [
+        "liabilit"
+      ],
+      "missing_tokens": []
+    },
+    "latency_ms": 22789,
+    "error": null
+  },
+  {
+    "id": "in-scope-5",
+    "question": "Who is responsible for the security of an AWS account?",
+    "retrieval": {
+      "expected_section": "Your Responsibilities",
+      "retrieved_sections": [
+        "Limitations of Liability",
+        "Your Responsibilities",
+        "Fees and Payment",
+        "Disclaimers"
+      ],
+      "recall_at_4": true
+    },
+    "answer": "The customer is responsible for securing their accounts and content on AWS. They must properly configure and use the Services, secure their accounts, protect their content using encryption, and regularly backup their data [2.3]. The customer is also responsible for all activities that occur under their account, regardless of whether they are authorized by the customer or undertaken by third parties [2.a]. AWS log-in credentials and private keys generated by the Services are for the customer's internal use only [2.4].",
+    "answer_eval": {
+      "refused": false,
+      "must_contain_met": true,
+      "must_not_contain_met": true,
+      "present_tokens": [
+        "account",
+        "responsib"
+      ],
+      "missing_tokens": []
+    },
+    "latency_ms": 9566,
+    "error": null
+  },
+  {
+    "id": "in-scope-6",
+    "question": "How can the agreement be terminated?",
+    "retrieval": {
+      "expected_section": "Term; Termination",
+      "retrieved_sections": [
+        "Term; Termination",
+        "Term; Termination",
+        "Term; Termination",
+        "Proprietary Rights"
+      ],
+      "recall_at_4": true
+    },
+    "answer": "The AWS Customer Agreement can be terminated by either party for any reason with notice and account closure within a certain period (30 days for one party, 60 days for the other) as stated in Section 5.2(a). Additionally, the agreement can also be terminated for cause if there is a material breach of the agreement that remains uncured for 30 days from receipt of notice [1]. The agreement may also be terminated immediately by AWS under certain circumstances such as non-compliance with laws or requests from governmental entities [2]. After termination, the customer remains responsible for all fees and charges incurred through the Termination Date and during a post-termination period if applicable [3]. Some sections of the agreement continue to apply after termination, including proprietary rights and certain terms related to disputes and governing law [4].",
+    "answer_eval": {
+      "refused": false,
+      "must_contain_met": true,
+      "must_not_contain_met": true,
+      "present_tokens": [
+        "terminat"
+      ],
+      "missing_tokens": []
+    },
+    "latency_ms": 17112,
+    "error": null
+  },
+  {
+    "id": "in-scope-7",
+    "question": "What is the AWS Customer Agreement?",
+    "retrieval": {
+      "expected_section": "Definitions",
+      "retrieved_sections": [
+        "Fees and Payment",
+        "Limitations of Liability",
+        "Term; Termination",
+        "AWS Responsibilities"
+      ],
+      "recall_at_4": false
+    },
+    "answer": "The AWS Customer Agreement is a contract between the customer and Amazon Web Services (AWS). It governs the customer's access to and use of the Services. The Agreement takes effect when the customer clicks an \"I Accept\" button or checkbox presented with these terms, or if earlier, when the customer uses any of the Services [4]. This document also mentions that as of certain dates, customers located in specific countries (Indonesia, Taiwan, and Mexico) contract with AWS Contracting Parties based in those countries [4].",
+    "answer_eval": {
+      "refused": false,
+      "must_contain_met": true,
+      "must_not_contain_met": true,
+      "present_tokens": [
+        "agreement"
+      ],
+      "missing_tokens": []
+    },
+    "latency_ms": 11070,
+    "error": null
+  },
+  {
+    "id": "in-scope-8",
+    "question": "What is the definition of \"AWS Content\"?",
+    "retrieval": {
+      "expected_section": "Definitions",
+      "retrieved_sections": [
+        "Definitions",
+        "Proprietary Rights",
+        "Definitions",
+        "Definitions"
+      ],
+      "recall_at_4": true
+    },
+    "answer": "The provided document defines \"AWS Content\" as software (including machine images), data, text, audio, video, or images made available by AWS and its affiliates related to use of the Services or on the AWS Site, excluding the Services or Third-Party Content [1].",
+    "answer_eval": {
+      "refused": false,
+      "must_contain_met": true,
+      "must_not_contain_met": true,
+      "present_tokens": [
+        "aws content"
+      ],
+      "missing_tokens": []
+    },
+    "latency_ms": 6168,
+    "error": null
+  },
+  {
+    "id": "out-of-scope-1",
+    "question": "What is the recipe for chicken tikka masala?",
+    "retrieval": {
+      "expected_section": "",
+      "retrieved_sections": [
+        "Limitations of Liability",
+        "Limitations of Liability",
+        "Limitations of Liability",
+        "Limitations of Liability"
+      ],
+      "recall_at_4": false
+    },
+    "answer": "The provided document does not contain information about a recipe for chicken tikka masala.",
+    "answer_eval": {
+      "refused": true,
+      "must_contain_met": true,
+      "must_not_contain_met": true,
+      "present_tokens": [],
+      "missing_tokens": []
+    },
+    "latency_ms": 2039,
+    "error": null
+  },
+  {
+    "id": "out-of-scope-2",
+    "question": "Who won the 2022 FIFA World Cup?",
+    "retrieval": {
+      "expected_section": "",
+      "retrieved_sections": [
+        "Definitions",
+        "Limitations of Liability",
+        "Limitations of Liability",
+        "Limitations of Liability"
+      ],
+      "recall_at_4": false
+    },
+    "answer": "The provided document does not contain information about who won the 2022 FIFA World Cup.",
+    "answer_eval": {
+      "refused": true,
+      "must_contain_met": true,
+      "must_not_contain_met": true,
+      "present_tokens": [],
+      "missing_tokens": []
+    },
+    "latency_ms": 3186,
+    "error": null
+  }
+]

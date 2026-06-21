@@ -1,0 +1,94 @@
+{
+  "items": [
+    {
+      "id": "in-scope-1",
+      "question": "What does AWS do with customer content?",
+      "must_contain": ["content", "use"],
+      "must_not_contain": ["chicken", "weather", "recipe"],
+      "expected_section": "AWS Responsibilities",
+      "should_answer": true,
+      "notes": "Section 1 (AWS Responsibilities) covers obligations including content handling."
+    },
+    {
+      "id": "in-scope-2",
+      "question": "How can AWS modify the agreement?",
+      "must_contain": ["modif"],
+      "must_not_contain": [],
+      "expected_section": "Modifications to the Agreement",
+      "should_answer": true,
+      "notes": "Section 10 (Modifications to the Agreement) is the target."
+    },
+    {
+      "id": "in-scope-3",
+      "question": "What is the disclaimer of warranties?",
+      "must_contain": ["as is", "warrant"],
+      "must_not_contain": [],
+      "expected_section": "Disclaimers",
+      "should_answer": true,
+      "notes": "Section 8 (Disclaimers)."
+    },
+    {
+      "id": "in-scope-4",
+      "question": "What are the limitations of liability in the agreement?",
+      "must_contain": ["liabilit"],
+      "must_not_contain": [],
+      "expected_section": "Limitations of Liability",
+      "should_answer": true,
+      "notes": "Section 9."
+    },
+    {
+      "id": "in-scope-5",
+      "question": "Who is responsible for the security of an AWS account?",
+      "must_contain": ["account", "responsib"],
+      "must_not_contain": [],
+      "expected_section": "Your Responsibilities",
+      "should_answer": true,
+      "notes": "Section 2 (Your Responsibilities) covers account security obligations."
+    },
+    {
+      "id": "in-scope-6",
+      "question": "How can the agreement be terminated?",
+      "must_contain": ["terminat"],
+      "must_not_contain": [],
+      "expected_section": "Term; Termination",
+      "should_answer": true,
+      "notes": "Section 5."
+    },
+    {
+      "id": "in-scope-7",
+      "question": "What is the AWS Customer Agreement?",
+      "must_contain": ["agreement"],
+      "must_not_contain": [],
+      "expected_section": "Definitions",
+      "should_answer": true,
+      "notes": "Section 12 (Definitions) is the closest match for a definitional question."
+    },
+    {
+      "id": "in-scope-8",
+      "question": "What is the definition of \"AWS Content\"?",
+      "must_contain": ["aws content"],
+      "must_not_contain": [],
+      "expected_section": "Definitions",
+      "should_answer": true,
+      "notes": "Section 12.3 defines AWS Content."
+    },
+    {
+      "id": "out-of-scope-1",
+      "question": "What is the recipe for chicken tikka masala?",
+      "must_contain": [],
+      "must_not_contain": ["garam masala", "yogurt"],
+      "expected_section": "",
+      "should_answer": false,
+      "notes": "Refusal test: topic is unrelated to the agreement."
+    },
+    {
+      "id": "out-of-scope-2",
+      "question": "Who won the 2022 FIFA World Cup?",
+      "must_contain": [],
+      "must_not_contain": ["argentina", "france"],
+      "expected_section": "",
+      "should_answer": false,
+      "notes": "Refusal test: current-events question."
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.env
+
+# Build artifacts (regenerate with build_index.py)
+vector_store/index.npy
+vector_store/meta.json
+data/chunks.jsonl
+
+# Runtime artifacts (regenerate by running the app)
+rag_logs.db
+rag_logs.db-wal
+rag_logs.db-shm
+
+# Hugging Face / sentence-transformers caches
+models/
+.cache/
+*.bin
+*.safetensors
+
+# IDE / editor
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db

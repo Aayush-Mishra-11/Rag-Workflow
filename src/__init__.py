@@ -1,0 +1,1 @@
+# Marker so `python -m src.rag` works without packaging.

@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Vestaff RAG — AWS Customer Agreement</title>
+  <style>
+    :root {
+      --bg: #0f1115;
+      --panel: #161a21;
+      --panel-2: #1d222b;
+      --border: #2a303b;
+      --text: #e6e8ec;
+      --muted: #9aa3b2;
+      --accent: #7aa2f7;
+      --accent-soft: #2c3e64;
+      --refusal: #e07a5f;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                   Oxygen, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+    .app {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 24px 16px 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      min-height: 100vh;
+    }
+    header h1 {
+      margin: 0 0 4px;
+      font-size: 22px;
+      letter-spacing: -0.01em;
+    }
+    header p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .chat {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .msg {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      background: var(--panel);
+    }
+    .msg.user {
+      background: var(--panel-2);
+      border-color: #353c4a;
+    }
+    .msg.assistant .meta {
+      display: flex;
+      gap: 10px;
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+    .msg.assistant .meta .refused { color: var(--refusal); }
+    .msg.assistant .meta .ok { color: #82c997; }
+    .msg .role {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .answer a.cite {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      border-bottom: 1px dotted var(--accent);
+      cursor: pointer;
+    }
+    .answer a.cite:hover { background: var(--accent-soft); }
+    .sources {
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .source {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--panel-2);
+      padding: 8px 10px;
+      font-size: 13px;
+    }
+    .source .head {
+      display: flex;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .source .preview { color: var(--text); white-space: pre-wrap; }
+    .source.cited { border-color: var(--accent); }
+
+    form.composer {
+      position: sticky;
+      bottom: 0;
+      background: var(--bg);
+      padding-top: 8px;
+      display: flex;
+      gap: 8px;
+    }
+    textarea {
+      flex: 1;
+      resize: none;
+      min-height: 44px;
+      max-height: 200px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--panel);
+      color: var(--text);
+      font: inherit;
+      outline: none;
+    }
+    textarea:focus { border-color: var(--accent); }
+    button {
+      padding: 0 16px;
+      border-radius: 8px;
+      border: 1px solid var(--accent);
+      background: var(--accent);
+      color: #0f1115;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    .examples {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 4px;
+    }
+    .examples button {
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      font-weight: 400;
+      padding: 4px 10px;
+      font-size: 12px;
+    }
+    .examples button:hover { color: var(--text); border-color: var(--accent); }
+
+    .history {
+      margin-top: 24px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+    .history h2 {
+      font-size: 13px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin: 0 0 8px;
+    }
+    .history-item {
+      padding: 8px 10px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 6px;
+      font-size: 13px;
+      background: var(--panel);
+    }
+    .history-item .q { color: var(--text); }
+    .history-item .a { color: var(--muted); margin-top: 4px; }
+    .error { color: var(--refusal); }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <h1>Vestaff RAG — AWS Customer Agreement</h1>
+      <p>Ask questions about the agreement. Answers are grounded in the PDF and cite the source page.</p>
+    </header>
+
+    <div class="examples" id="examples">
+      <button data-q="What does AWS do with customer content?">Customer content</button>
+      <button data-q="How can AWS change the agreement?">Modifications</button>
+      <button data-q="What is the disclaimer of warranties?">Warranty disclaimer</button>
+      <button data-q="What are the limitations of liability?">Liability limits</button>
+      <button data-q="Who is responsible for account security?">Account security</button>
+      <button data-q="How is the agreement terminated?">Termination</button>
+      <button data-q="What is the recipe for chicken tikka masala?">Out-of-scope test</button>
+    </div>
+
+    <div class="chat" id="chat"></div>
+
+    <form class="composer" id="composer">
+      <textarea id="q" placeholder="Ask a question about the AWS Customer Agreement..." required></textarea>
+      <button type="submit" id="send">Ask</button>
+    </form>
+
+    <section class="history">
+      <h2>Recent queries (SQLite log)</h2>
+      <div id="history"></div>
+    </section>
+  </div>
+
+  <script>
+    const chatEl = document.getElementById('chat');
+    const formEl = document.getElementById('composer');
+    const qEl = document.getElementById('q');
+    const sendBtn = document.getElementById('send');
+    const historyEl = document.getElementById('history');
+
+    function escapeHtml(s) {
+      return String(s)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+    }
+
+    function renderAnswerWithCitations(answer, sources) {
+      // Replace [n] markers with clickable anchors.
+      const html = escapeHtml(answer).replace(/\[(\d+)\]/g, (m, n) => {
+        return `<a class="cite" data-cite="${n}">[${n}]</a>`;
+      });
+      let s = `<div class="answer">${html}</div>`;
+      if (sources && sources.length) {
+        s += '<div class="sources">';
+        sources.forEach((src, i) => {
+          const citeNum = i + 1;
+          const citedClass = '';
+          s += `<div class="source${citedClass}" data-src="${citeNum}">
+                  <div class="head">
+                    <span>[${citeNum}]</span>
+                    <span>page ${src.page}</span>
+                    ${src.section ? `<span>· ${escapeHtml(src.section)}</span>` : ''}
+                    <span>· score ${src.score}</span>
+                  </div>
+                  <div class="preview">${escapeHtml(src.preview || src.text || '').slice(0, 400)}...</div>
+                </div>`;
+        });
+        s += '</div>';
+      }
+      return s;
+    }
+
+    function addMessage(role, html, meta) {
+      const div = document.createElement('div');
+      div.className = 'msg ' + role;
+      div.innerHTML = `<div class="role">${role}</div>${html}` +
+        (meta ? `<div class="meta">${meta}</div>` : '');
+      chatEl.appendChild(div);
+      div.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      // Attach click handlers for [n] citations
+      div.querySelectorAll('a.cite').forEach(a => {
+        a.addEventListener('click', e => {
+          e.preventDefault();
+          const n = a.dataset.cite;
+          const target = div.querySelector(`.source[data-src="${n}"]`);
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            target.style.outline = '2px solid var(--accent)';
+            setTimeout(() => { target.style.outline = ''; }, 1200);
+          }
+        });
+      });
+      return div;
+    }
+
+    async function ask(question) {
+      sendBtn.disabled = true;
+      qEl.value = '';
+      addMessage('user', `<div>${escapeHtml(question)}</div>`);
+      const pending = addMessage('assistant', `<div class="answer">Thinking...</div>`);
+      try {
+        const res = await fetch('/ask', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ question }),
+        });
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({ detail: res.statusText }));
+          pending.innerHTML = `<div class="role">assistant</div><div class="error">Error: ${escapeHtml(err.detail || 'request failed')}</div>`;
+          return;
+        }
+        const data = await res.json();
+        const answerHtml = renderAnswerWithCitations(data.answer, data.sources);
+        const cited = data.cited_chunk_ids && data.cited_chunk_ids.length
+          ? `cited [${data.cited_chunk_ids.join(', ')}]`
+          : '';
+        const refusedTag = data.refused
+          ? '<span class="refused">refused</span>'
+          : '<span class="ok">answered</span>';
+        pending.innerHTML = `<div class="role">assistant</div>${answerHtml}
+          <div class="meta">
+            ${refusedTag}
+            <span>${data.latency_ms} ms</span>
+            <span>db #${data.db_id}</span>
+            ${cited ? `<span>${cited}</span>` : ''}
+          </div>`;
+        // Re-bind click handlers after innerHTML replacement
+        pending.querySelectorAll('a.cite').forEach(a => {
+          a.addEventListener('click', e => {
+            e.preventDefault();
+            const n = a.dataset.cite;
+            const target = pending.querySelector(`.source[data-src="${n}"]`);
+            if (target) {
+              target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              target.style.outline = '2px solid var(--accent)';
+              setTimeout(() => { target.style.outline = ''; }, 1200);
+            }
+          });
+        });
+        await refreshHistory();
+      } catch (e) {
+        pending.innerHTML = `<div class="role">assistant</div><div class="error">${escapeHtml(e.message)}</div>`;
+      } finally {
+        sendBtn.disabled = false;
+        qEl.focus();
+      }
+    }
+
+    async function refreshHistory() {
+      try {
+        const res = await fetch('/history?limit=5');
+        const data = await res.json();
+        historyEl.innerHTML = data.queries.map(q => `
+          <div class="history-item">
+            <div class="q">#${q.id} · ${escapeHtml(q.question)}</div>
+            <div class="a">${escapeHtml(q.answer.slice(0, 160))}${q.answer.length > 160 ? '...' : ''}</div>
+          </div>
+        `).join('') || '<div class="muted">No queries yet.</div>';
+      } catch (e) {
+        historyEl.innerHTML = `<div class="error">Failed to load history: ${escapeHtml(e.message)}</div>`;
+      }
+    }
+
+    formEl.addEventListener('submit', e => {
+      e.preventDefault();
+      const q = qEl.value.trim();
+      if (!q) return;
+      ask(q);
+    });
+
+    document.getElementById('examples').addEventListener('click', e => {
+      const t = e.target.closest('button[data-q]');
+      if (!t) return;
+      qEl.value = t.dataset.q;
+      formEl.requestSubmit();
+    });
+
+    qEl.addEventListener('keydown', e => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        formEl.requestSubmit();
+      }
+    });
+
+    refreshHistory();
+  </script>
+</body>
+</html>
