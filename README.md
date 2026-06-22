@@ -214,4 +214,4 @@ RAG_workflow/
     └── meta.json
 ```
 
-See `report/technical_report.md` for the full design write-up.
+See `report/technical_report` for the full design write-up.
