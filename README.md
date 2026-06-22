@@ -21,8 +21,7 @@ Built for the **Vestaff Junior AI Developer** technical assignment.
   cosine scores, citations, latency, and refusal status
 - **Serves** a chat UI on `http://127.0.0.1:8000`
 
-No LangChain, no LangGraph, no vector database — every choice is visible in
-~250 lines of Python across `src/`.
+every choice is visible in ~250 lines of Python across `src/`.
 
 ---
 
